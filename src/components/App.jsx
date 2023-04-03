@@ -1,46 +1,51 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
+
 import { Statistics } from 'components/Statistics/Statistics';
 import { FeedbackOptions } from 'components/FeedbackOptions/FeedbackOptions';
 import { Notification } from 'components/Notification/Notification';
 import { FeedbackStyle, StatTitle } from './app.styled';
 
-export class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
+export function App() {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
-  onBtnClick = e => {
+  const onBtnClick = e => {
     const { name } = e.currentTarget;
-    this.setState(prevState => {
-      return { [name]: prevState[name] + 1 };
-    });
+    switch (name) {
+      case 'good':
+        setGood(good + 1);
+        break;
+      case 'neutral':
+        setNeutral(neutral + 1);
+        break;
+      case 'bad':
+        setBad(bad + 1);
+        break;
+      default:
+        return;
+    }
   };
 
-  total({ good, neutral, bad }) {
+  function total(good, neutral, bad) {
     return good + neutral + bad;
   }
 
-  render() {
-    const { good, neutral, bad } = this.state;
-    return (
-      <FeedbackStyle>
-        <FeedbackOptions onLeaveFeedback={this.onBtnClick} />
+  return (
+    <FeedbackStyle>
+      <FeedbackOptions onLeaveFeedback={onBtnClick} />
 
-        <StatTitle>Statistic</StatTitle>
-        {this.total(this.state) ? (
-          <Statistics
-            total={this.total(this.state)}
-            props={this.state}
-            good={good}
-            neutral={neutral}
-            bad={bad}
-          />
-        ) : (
-          <Notification />
-        )}
-      </FeedbackStyle>
-    );
-  }
+      <StatTitle>Statistic</StatTitle>
+      {total ? (
+        <Statistics
+          total={total(good, neutral, bad)}
+          good={good}
+          neutral={neutral}
+          bad={bad}
+        />
+      ) : (
+        <Notification />
+      )}
+    </FeedbackStyle>
+  );
 }
