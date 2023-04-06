@@ -1,4 +1,5 @@
 import { StatStyle } from './statistics.styled';
+import PropTypes from 'prop-types';
 
 export function Statistics({ total, good, neutral, bad }) {
   function countPositiveFeedbackPercentage(good, total) {
@@ -22,3 +23,10 @@ export function Statistics({ total, good, neutral, bad }) {
     </StatStyle>
   );
 }
+
+Statistics.propTypes = {
+  total: PropTypes.number,
+  good: PropTypes.number,
+  neutral: PropTypes.number,
+  bad: PropTypes.number,
+};

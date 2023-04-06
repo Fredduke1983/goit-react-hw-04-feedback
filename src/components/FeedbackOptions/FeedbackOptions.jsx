@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import {
   FeedbackBtns,
   FeedbackBtnsStyle,
@@ -22,3 +23,7 @@ export function FeedbackOptions({ onLeaveFeedback }) {
     </>
   );
 }
+
+FeedbackOptions.propTypes = {
+  onLeaveFeedback: PropTypes.func,
+};
